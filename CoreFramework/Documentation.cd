@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Temeljna klasa za INPC">
+    <Position X="0.5" Y="0.5" Height="0.312" Width="1.7" />
+  </Comment>
+  <Comment CommentText="2 interfacea za kolekcije, ICoreCollection se najcesce koristi">
+    <Position X="3.265" Y="0.5" Height="0.375" Width="3.575" />
+  </Comment>
+  <Comment CommentText="Temeljna kolekcija za sve stvari, ne sadrzi puno logike, implementira sve interface vezane za kolekcije, moze se koristit kao takva, ali nudi i grupirane virtualne operacije koje se mogu overrideat">
+    <Position X="3.25" Y="3.579" Height="0.896" Width="3.252" />
+  </Comment>
+  <Comment CommentText="Korisno kao kolekcija kojoj se moze pristupit preko keya, koristi PropertyKey za provjeru, key moze bit null (ne dodaje se u interni dictionary, svejedno je u kolekciji)">
+    <Position X="7.907" Y="3.381" Height="1.26" Width="2.106" />
+  </Comment>
+  <Comment CommentText="Ekstenzije koje se cesto koriste za razne pokrate">
+    <Position X="26.554" Y="0.654" Height="0.521" Width="2.24" />
+  </Comment>
+  <Comment CommentText="Klasa razbijena u partial klase gdje je definirana konverzija između često korištenih tipova">
+    <Position X="29.75" Y="0.5" Height="0.886" Width="1.583" />
+  </Comment>
+  <Comment CommentText="Koristi se kao return value za razne pozive gdje imamo objekt koji glumi listu s svojim properties">
+    <Position X="36.863" Y="1.701" Height="1.088" Width="1.583" />
+  </Comment>
+  <Comment CommentText="CoreComparer se koristi za uspoređivanje preko property keys">
+    <Position X="32.863" Y="0.621" Height="0.652" Width="1.583" />
+  </Comment>
+  <Comment CommentText="Interfacei koji se koriste za razlicito pristupanje generic klase PropertyKey">
+    <Position X="13.502" Y="2.667" Height="0.292" Width="4.919" />
+  </Comment>
+  <Comment CommentText="Helper klasa koja zna instancirati PropertyKeyeve">
+    <Position X="22.386" Y="1.466" Height="0.542" Width="1.752" />
+  </Comment>
+  <Comment CommentText="Delegati za Get/Set koristeni od strane PropertyKeya">
+    <Position X="15.979" Y="6.602" Height="0.75" Width="1.273" />
+  </Comment>
+  <Comment CommentText="Temelj refleksije, stvara direktne delegate na Get/Set metode propertya, napravljeni s preformansama na umu, immutable i nemaju provjere za cast i null. To se ocekuje od usera da zna sto radi">
+    <Position X="14.438" Y="4.625" Height="1.052" Width="2.617" />
+  </Comment>
+  <Comment CommentText="Klasa koja je glavni cache za kolekcije propertya odredenih tipova, ovo je također primarni izvor efikasnosti nase refleksije">
+    <Position X="22.421" Y="0.5" Height="0.844" Width="2.21" />
+  </Comment>
+  <Comment CommentText="Kolekcija PropertyKeyeva s constraintom na Name, korisno za pristupanje po imenu propertya">
+    <Position X="15.079" Y="9.454" Height="0.667" Width="2.606" />
+  </Comment>
+  <Comment CommentText="Klasa poput Activator(.CreateInstance) koja radi cache nad konstruktorima objekata, namjena je da se preko IObjectActivatora smanje overhead refleksije kod instanciranja novih objekata, za efikasnost koristimo Expression i Lambda">
+    <Position X="19.367" Y="6.704" Height="1.052" Width="3.252" />
+  </Comment>
+  <Comment CommentText="Interface za prenošenje stavki unutar ObjectActivatora, immutable korisno zbog efikasnosti, zajednicke baze i mogucnosti cacha na drugim mjestima van ObjectActivatora">
+    <Position X="19.298" Y="3.234" Height="0.833" Width="5.208" />
+  </Comment>
+  <Comment CommentText="Klasa koja se brine o trenutnoj konfiguraciji konekcije na bazu, sadrzi nekoliko helper metoda, ali Provider property je najbitniji i on se koristi kroz sve ostale sustave automatskog pristupa baz koristeci druge objekte u ovom namespaceu">
+    <Position X="29.988" Y="8.524" Height="1.573" Width="2.085" />
+  </Comment>
+  <Comment CommentText="Interface omogucava da se drugi objekti koriste kao Provider u SqlConnectionProvider singletonu">
+    <Position X="35.693" Y="8.558" Height="0.75" Width="2.619" />
+  </Comment>
+  <Comment CommentText="Bazna klasa za implementaciju konfiguracija konekcija">
+    <Position X="35.737" Y="10.337" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Razne extension metode za citanje iz baze koristeci refleksiju (PropertyKey), koristi SqlConnectionProvider.Provider ili ISqlConnectionProvider s kojim se pozove">
+    <Position X="30.225" Y="12.258" Height="1.756" Width="1.7" />
+  </Comment>
+  <Comment CommentText="RealProxy klasa koja pretvara pozive interfacea u pozive na sql bazu. Ime procedure je ime metode pozvane i parametri su parametri metode value koji je i ime + @ na pocetku">
+    <Position X="38.853" Y="8.971" Height="0.851" Width="3.041" />
+  </Comment>
+  <Comment CommentText="Klasa koja je wrapper oko proxya da se moze napraviti strongly typed dao objekt i koristi se kao nivo abstrakcije izmedu modela (itema) i parametara procedure">
+    <Position X="43.011" Y="9.105" Height="0.75" Width="3.645" />
+  </Comment>
+  <Class Name="Core.ComponentModel.NotifyDecriptorBase">
+    <Position X="0.5" Y="1" Width="2.5" />
+    <TypeIdentifier />
+    <Lollipop Orientation="Bottom" Position="0.215" />
+  </Class>
+  <Class Name="Core.Collections.CoreCollection&lt;T&gt;" HideInheritanceLine="true">
+    <Position X="3.25" Y="4.75" Width="3.75" />
+    <TypeIdentifier />
+    <Lollipop Orientation="Bottom" Position="0.215" />
+  </Class>
+  <Class Name="Core.Collections.CoreDictionary&lt;TKey, TValue&gt;">
+    <Position X="7.75" Y="4.75" Width="3.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.CommonExtensions">
+    <Position X="26.5" Y="1.5" Width="2.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.CoreConverter">
+    <Position X="29.75" Y="1.5" Width="3" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.ValueTripper">
+    <Position X="36.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.CoreComparer&lt;T&gt;">
+    <Position X="33" Y="1.5" Width="3" />
+    <TypeIdentifier />
+    <Lollipop Orientation="Bottom" Position="0.127" />
+  </Class>
+  <Class Name="Core.Reflection.PropertyKey">
+    <Position X="18.75" Y="0.5" Width="3.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.Reflection.PropertyKey&lt;TClass, TProperty&gt;">
+    <Position X="12" Y="5.75" Width="2.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Core.Reflection.PropertyKeyCollection">
+    <Position X="15" Y="10.25" Width="5.25" />
+    <InheritanceLine Type="Core.Collections.CoreDictionary&lt;TKey, TValue&gt;" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="9.5" Y="8.742" />
+        <Point X="9.5" Y="11.679" />
+        <Point X="15.375" Y="11.679" />
+        <Point X="15.375" Y="11.483" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.Reflection.ObjectActivator">
+    <Position X="19.25" Y="8" Width="3" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.Reflection.ObjectActivator&lt;T&gt;">
+    <Position X="22.75" Y="7" Width="2.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Core.Data.SqlConnectionProvider">
+    <Position X="26.25" Y="8.5" Width="3.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.Data.CoreConnectionProvider" HideInheritanceLine="true">
+    <Position X="32.5" Y="10.25" Width="3" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Core.ValueTripper&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt;">
+    <Position X="43.75" Y="6" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.ValueTripper&lt;T1, T2, T3, T4, T5, T6, T7&gt;">
+    <Position X="42" Y="6" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.ValueTripper&lt;T1, T2, T3, T4, T5, T6&gt;">
+    <Position X="40.25" Y="6" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.ValueTripper&lt;T1, T2, T3, T4, T5&gt;">
+    <Position X="38.5" Y="6" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.ValueTripper&lt;T1, T2, T3, T4&gt;">
+    <Position X="43.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.ValueTripper&lt;T1, T2, T3&gt;">
+    <Position X="42" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.ValueTripper&lt;T1, T2&gt;">
+    <Position X="40.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.ValueTripper&lt;T1&gt;">
+    <Position X="38.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.Data.CoreDataReader">
+    <Position X="26.25" Y="12.25" Width="3.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.Data.CoreDataProxy">
+    <Position X="38.5" Y="10.25" Width="3.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Core.Data.CoreDataAccessObject&lt;TProxy&gt;">
+    <Position X="43" Y="10.25" Width="3.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Core.Collections.ICoreCollection">
+    <Position X="3.25" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Collections.ICoreCollection&lt;T&gt;">
+    <Position X="5.25" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Reflection.IPropertyKey">
+    <Position X="11.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Reflection.IPropertyKey&lt;TClass, TProperty&gt;">
+    <Position X="15.75" Y="0.5" Width="2.25" />
+    <InheritanceLine Type="Core.Reflection.IPropertyKey" FixedToPoint="true">
+      <Path>
+        <Point X="12.375" Y="0.5" />
+        <Point X="12.375" Y="0.125" />
+        <Point X="16.969" Y="0.125" />
+        <Point X="16.969" Y="0.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Reflection.IPropertyKey&lt;TProperty&gt;">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Reflection.IObjectActivator">
+    <Position X="19.25" Y="4.25" Width="2.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Reflection.IObjectActivator&lt;T&gt;">
+    <Position X="21.75" Y="4.25" Width="2.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Data.ISqlConnectionProvider">
+    <Position X="32.5" Y="8.5" Width="3" />
+    <TypeIdentifier />
+  </Interface>
+  <Delegate Name="Core.Reflection.PropertyGetter&lt;TClass, TMember&gt;" Collapsed="true">
+    <Position X="15.25" Y="7.5" Width="2.75" />
+    <TypeIdentifier />
+  </Delegate>
+  <Delegate Name="Core.Reflection.PropertySetter&lt;TClass, TMember&gt;" Collapsed="true">
+    <Position X="15.25" Y="8.25" Width="2.75" />
+    <TypeIdentifier />
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
