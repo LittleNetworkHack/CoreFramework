@@ -11,8 +11,8 @@ namespace Core.Data
     {
 		#region DevEnv Providers
 
-		public static readonly CoreConnectionProvider Provider_LNH_Core = new CoreConnectionProvider("PENAVA-PC\\LNHRAZVOJ", "CoreDB", "lnhdbmaster", "NotAPassword");
-		public static readonly CoreConnectionProvider Provider_LNH_Ref = new CoreConnectionProvider("PENAVA-PC\\LNHRAZVOJ", "RefaktorDB", "lnhdbmaster", "NotAPassword");
+		public static readonly CoreConnectionProvider Provider_LNH_Core = new CoreConnectionProvider();
+		public static readonly CoreConnectionProvider Provider_LNH_Ref = new CoreConnectionProvider();
 		
 		#endregion DevEnv Providers
 
