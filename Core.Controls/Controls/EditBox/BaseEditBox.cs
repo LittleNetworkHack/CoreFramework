@@ -90,14 +90,20 @@ namespace Core.Controls
 
 		protected override void OnEnter(EventArgs e)
 		{
-			Text = FormatValue(Value, true);
+			CheckValue();
+			if (IsValid)
+				Text = FormatValue(Value, true);
+			
 			ForcePaint();
 			base.OnEnter(e);
 		}
 
 		protected override void OnLeave(EventArgs e)
 		{
-			Text = FormatValue(Value, false);
+			CheckValue();
+			if (IsValid)
+				Text = FormatValue(Value, false);
+
 			ForcePaint();
 			base.OnLeave(e);
 		}
@@ -109,13 +115,30 @@ namespace Core.Controls
 		}
 
 		protected override void OnLostFocus(EventArgs e)
-		{
-			if (IsMandatory)
-				IsValid = !IsValueEmtpy(Value);
-
-			IsValid = !(Value == null && IsMandatory);
+		{;
 			ForcePaint();
 			base.OnLostFocus(e);
+		}
+
+		protected override void OnValidating(CancelEventArgs e)
+		{
+			e.Cancel = !IsValid;
+			base.OnValidating(e);
+		}
+
+		protected void CheckValue()
+		{
+			if (IsMandatory)
+			{
+				if (Text != string.Empty && !TryParseValue(Text, out TValue val))
+					IsValid = false;
+				else
+					IsValid = true;
+			}
+			else
+			{
+				IsValid = true;
+			}
 		}
 
 		#endregion Core
