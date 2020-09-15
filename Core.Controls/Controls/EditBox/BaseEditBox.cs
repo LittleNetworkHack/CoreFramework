@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Forms;
 
+using Core.ComponentModel;
 using Core.Reflection;
 
 namespace Core.Controls
@@ -26,25 +27,29 @@ namespace Core.Controls
 
 		#endregion Fields
 
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[DefaultValue(null)]
+		[Category("_Core")]
+		[TypeConverter(typeof(CoreTypeConverter))]
 		public TValue Value
 		{
 			get => _value;
-			set => SetValue(ref _value, value);
+			set => SetPropValue(ref _value, value);
 		}
 
 		[DefaultValue(true)]
+		[Category("_Core")]
 		public bool IsValid
 		{
 			get => _isValid;
-			set => SetValue(ref _isValid, value, ForcePaint);
+			set => SetPropValue(ref _isValid, value, ForcePaint);
 		}
 
 		[DefaultValue(false)]
+		[Category("_Core")]
 		public bool IsMandatory
 		{
 			get => _isMandatory;
-			set => SetValue(ref _isMandatory, value, ForcePaint);
+			set => SetPropValue(ref _isMandatory, value, ForcePaint);
 		}
 
 		#endregion Properties
@@ -78,7 +83,7 @@ namespace Core.Controls
 			}
 		}
 
-		protected bool SetValue<T>(ref T field, T value, Action method = null)
+		protected bool SetPropValue<T>(ref T field, T value, Action method = null)
 		{
 			if (EqualityComparer<T>.Default.Equals(field, value))
 				return false;
@@ -90,20 +95,16 @@ namespace Core.Controls
 
 		protected override void OnEnter(EventArgs e)
 		{
-			CheckValue();
-			if (IsValid)
+			if (IsValidValue)
 				Text = FormatValue(Value, true);
-			
 			ForcePaint();
 			base.OnEnter(e);
 		}
 
 		protected override void OnLeave(EventArgs e)
 		{
-			CheckValue();
-			if (IsValid)
+			if (IsValidValue)
 				Text = FormatValue(Value, false);
-
 			ForcePaint();
 			base.OnLeave(e);
 		}
@@ -115,33 +116,40 @@ namespace Core.Controls
 		}
 
 		protected override void OnLostFocus(EventArgs e)
-		{;
+		{
 			ForcePaint();
 			base.OnLostFocus(e);
 		}
 
-		protected override void OnValidating(CancelEventArgs e)
+		public void SetValue(TValue value)
 		{
-			e.Cancel = !IsValid;
-			base.OnValidating(e);
-		}
+			if (EqualityComparer<TValue>.Default.Equals(_value, value))
+				return;
 
-		protected void CheckValue()
-		{
-			if (IsMandatory)
-			{
-				if (Text != string.Empty && !TryParseValue(Text, out TValue val))
-					IsValid = false;
-				else
-					IsValid = true;
-			}
-			else
-			{
-				IsValid = true;
-			}
+			_value = value;
+			Text = FormatValue(Value, Focused);
+			Invalidate();
 		}
 
 		#endregion Core
+
+		#region Validate
+
+		private ToolTip ttValid = new ToolTip();
+		protected bool IsValidValue => Text == string.Empty || TryParseValue(Text, out _);
+
+		protected override void OnValidating(CancelEventArgs e)
+		{
+			if (!IsValidValue)
+			{
+				e.Cancel = true;
+				ttValid.Show("Neispravna vrijednost!", this, Width + 4, 0, 2500);
+			}
+
+			base.OnValidating(e);
+		}
+
+		#endregion Validate
 
 		#region Process Text
 
@@ -156,9 +164,9 @@ namespace Core.Controls
 			bool pValid = TryParsePartialValue(previewText);
 			bool fValid = TryParseValue(previewText, out TValue v);
 			if (pValid && fValid)
-				Value = v;
+				_value = v;
 			else if (pValid)
-				Value = default(TValue);
+				_value = default(TValue);
 
 			return pValid;
 		}
@@ -237,17 +245,19 @@ namespace Core.Controls
 		private string _displayFormat = null;
 
 		[DefaultValue(null)]
+		[Category("_Core")]
 		public virtual string EditFormat
 		{
 			get => _editFormat;
-			set => SetValue(ref _editFormat, value, Invalidate);
+			set => SetPropValue(ref _editFormat, value, Invalidate);
 		}
 
 		[DefaultValue(null)]
+		[Category("_Core")]
 		public virtual string DisplayFormat
 		{
 			get => _displayFormat;
-			set => SetValue(ref _displayFormat, value, Invalidate);
+			set => SetPropValue(ref _displayFormat, value, Invalidate);
 		}
 
 		public virtual string FormatValue(TValue value, bool isEditing)
@@ -271,13 +281,13 @@ namespace Core.Controls
 
 		#region Paint
 
-		protected Color BorderColor => this.GetBorderColor(DesignMode);
+		protected Color BorderColor => this.GetBorderColor();
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public override Color BackColor
 		{
-			get => this.GetBackgroundColor(DesignMode);
+			get => this.GetBackgroundColor();
 			set => base.BackColor = value;
 		}
 
@@ -285,7 +295,7 @@ namespace Core.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public override Color ForeColor
 		{
-			get => this.GetForegroundColor(DesignMode);
+			get => this.GetForegroundColor();
 			set => base.ForeColor = value;
 		}
 
