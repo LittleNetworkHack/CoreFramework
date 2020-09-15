@@ -50,9 +50,6 @@
     <Compile Include="Components\CoreEditManager.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\EditBox\BaseBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\EditBox\BaseEditBox.cs">
       <SubType>Component</SubType>
     </Compile>

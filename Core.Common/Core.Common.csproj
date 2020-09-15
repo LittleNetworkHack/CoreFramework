@@ -75,7 +75,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\Descriptors\CorePropertyDescriptor.cs" />
     <Compile Include="Reflection\Descriptors\CorePropertyDescriptorCollection.cs" />
-    <Compile Include="Reflection\IKeyOwner.cs" />
+    <Compile Include="Reflection\Descriptors\IKeyOwner.cs" />
     <Compile Include="Reflection\ObjectActivator\ObjectActivator.Core.cs" />
     <Compile Include="Reflection\ObjectActivator\ObjectActivator.Declarations.cs" />
     <Compile Include="Reflection\ObjectActivator\ObjectActivator.Utils.cs" />

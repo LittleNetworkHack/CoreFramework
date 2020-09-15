@@ -8,12 +8,17 @@ namespace Core.Controls
 {
     public struct ColorTriplet
     {
+        public string Name { get; }
         public Color Border { get; }
         public Color Background { get; }
         public Color Foreground { get; }
 
-        public ColorTriplet(Color border, Color back, Color fore)
+        public ColorTriplet(string name, Color border, Color back, Color fore)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentException("'name' cannot be null or empty!");
+
+            Name = name;
             Border = border;
             Background = back;
             Foreground = fore;
@@ -28,6 +33,11 @@ namespace Core.Controls
 
             byte v = (byte)(lvl * (255d / 100d));
             return Color.FromArgb(v, v, v);
+        }
+
+        public override string ToString()
+        {
+            return $"ColorTriplet[{Name}]";
         }
     }
 }
