@@ -115,7 +115,6 @@ namespace Core
 
 		public static void TestConversion()
 		{
-			// Core.Converters.CoreConverter.TestConversion();
 			List<object> list = new List<object>()
 			{
 				null,
