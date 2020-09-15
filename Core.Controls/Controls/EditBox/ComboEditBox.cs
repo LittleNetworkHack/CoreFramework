@@ -17,7 +17,6 @@ namespace Core.Controls
         #region Attributes
         [Bindable(true)]
         [Browsable(true)]
-        [Category("KOR Component Model")]
         [DefaultValue(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         #endregion Attributes
@@ -31,7 +30,6 @@ namespace Core.Controls
         #region Attributes
         [Bindable(true)]
         [Browsable(true)]
-        [Category("KOR Component Model")]
         [DefaultValue(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         #endregion Attributes
