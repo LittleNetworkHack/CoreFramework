@@ -28,6 +28,21 @@ namespace Core
 
 		public static bool IsNullOrDBNull(this object value) => value == null || value == DBNull.Value;
 
+		public static bool IsInRange(this int value, int minimum, int maximum)
+		{
+			return value >= minimum && value <= maximum;
+		}
+
+		public static int CollapseToRange(this int value, int minimum, int maximum)
+		{
+			if (value < minimum)
+				return minimum;
+			else if (value > maximum)
+				return maximum;
+
+			return value;
+		}
+
 		public static ServiceHost CreateServiceHost(this Type serviceType, Type endpointType, Uri baseAddress, string address, params Binding[] bindings)
 		{
 			ServiceHost host = new ServiceHost(serviceType, baseAddress);

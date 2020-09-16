@@ -124,7 +124,7 @@
         }
 
         #endregion
-        private Controls.ExpandableGroupBox grpDetails;
+        private Core.Controls.ExpandableGroupBox grpDetails;
         private System.Windows.Forms.Label lblDesc;
         private System.Windows.Forms.TextBox txtDesc;
         private System.Windows.Forms.Button btnOK;

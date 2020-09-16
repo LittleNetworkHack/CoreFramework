@@ -13,8 +13,24 @@ using Core.Reflection;
 
 namespace Core.Controls
 {
+	#region Interface
+
+	public interface ICoreEditControl
+	{
+		object Value { get; set; }
+		Type ValueType { get; }
+
+		Point Location { get; set; }
+		Size Size { get; set; }
+		Padding Margin { get; set; }
+		DockStyle Dock { get; set; }
+		void SetBounds(int x, int y, int width, int height, BoundsSpecified specified);
+	}
+
+	#endregion Interface
+
 	[Designer("System.Windows.Forms.Design.TextBoxDesigner, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-	public abstract class BaseEditBox<TValue> : TextBox
+	public abstract class BaseEditBox<TValue> : TextBox, ICoreEditControl
 	{
 		#region Properties
 
@@ -33,7 +49,7 @@ namespace Core.Controls
 		public TValue Value
 		{
 			get => _value;
-			set => SetPropValue(ref _value, value);
+			set => SetValue(value);
 		}
 
 		[DefaultValue(true)]
@@ -52,12 +68,25 @@ namespace Core.Controls
 			set => SetPropValue(ref _isMandatory, value, ForcePaint);
 		}
 
+
+		#region ICoreEditControl
+
+		Type ICoreEditControl.ValueType => typeof(TValue);
+		object ICoreEditControl.Value
+		{
+			get => Value;
+			set => Value = (TValue)value;
+		}
+
+		#endregion ICoreEditControl
+
 		#endregion Properties
 
 		#region Constructors
 
 		protected BaseEditBox()
 		{
+
 		}
 
 		#endregion Constructors

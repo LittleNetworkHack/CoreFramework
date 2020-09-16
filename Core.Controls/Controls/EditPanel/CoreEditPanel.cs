@@ -6,14 +6,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
 using System.Windows.Forms.Layout;
 
 namespace Core.Controls
 {
-	public class CoreEditPanel : Panel
+	//[Designer(typeof(CoreEditPanelDesigner), typeof(ParentControlDesigner))]
+	[ToolboxItem(typeof(CoreEditBoxToolboxItem))]
+	public class CoreEditPanel : Control
 	{
-		public override LayoutEngine LayoutEngine => CoreEditPanelLayout.Instance;
+		#region Properties
+
+		#region Fields
+
+		#endregion Fields
+
+		//public override LayoutEngine LayoutEngine => CoreEditPanelLayout.Instance;
+
+		#endregion Properties
+
+		public ICoreEditControl EditBox { get; set; }
+
+		#region Constructors
+
+		public CoreEditPanel()
+		{
+
+		}
+
+		#endregion Constructors
 	}
+
+
+	#region Designer
+
+	public class CoreEditPanelDesigner : ParentControlDesigner
+	{
+		public override void Initialize(IComponent component)
+		{
+			base.Initialize(component);
+			CoreEditPanel panel = (CoreEditPanel)component;
+			//EnableDesignMode(panel.EditBox, "EditBox");
+		}
+	}
+
+	#endregion Designer
 
 	public class CoreEditPanelLayout : LayoutEngine
 	{
@@ -27,7 +64,7 @@ namespace Core.Controls
 		public override bool Layout(object container, LayoutEventArgs layoutEventArgs)
 		{
 			CoreEditPanel panel = container as CoreEditPanel;
-			IEnumerable<ICoreControl> items = panel.Controls.OfType<ICoreControl>();
+			IEnumerable<ICoreEditControl> items = panel.Controls.OfType<ICoreEditControl>();
 
 			int itemX = _labelWidth + _offsetLeft;
 			int itemY = _offsetTop;
@@ -36,12 +73,12 @@ namespace Core.Controls
 			int lblY = _offsetTop;
 
 
-			foreach (ICoreControl ctrl in items)
+			foreach (ICoreEditControl ctrl in items)
 			{
 				if (ctrl.Dock != DockStyle.Fill)
 					continue;
 
-				Label lbl = ctrl.DescriptionLabel;
+				Label lbl = null;//ctrl.DescriptionLabel;
 				if (lbl == null)
 					continue;
 
