@@ -57,7 +57,7 @@ namespace Core
 				//case Guid v:
 				//	return ToSByte(v);
 				default:
-					return null;
+					return TryCast<sbyte>(value);
 			}
 		}
 

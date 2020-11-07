@@ -57,7 +57,7 @@ namespace Core
 				//case Guid v:
 				//	return ToDecimal(v);
 				default:
-					return null;
+					return TryCast<decimal>(value);
 			}
 		}
 

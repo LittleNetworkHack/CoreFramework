@@ -151,7 +151,6 @@ namespace Core.Controls
 
 		#endregion Constructors
 
-
 		#region Override
 
 		protected override void OnTextChanged(EventArgs e)

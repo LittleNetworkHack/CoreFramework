@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
+using Core.Reflection;
 
 namespace Core.Collections
 {
@@ -68,6 +70,25 @@ namespace Core.Collections
 		}
 
 		public static CoreCollection<T> ToCollection<T>(this IEnumerable<T> items) => new CoreCollection<T>(items);
+
+		public static DataTable ToDataTable<T>(this ICoreCollection<T> items)
+		{
+			DataTable table = new DataTable();
+			PropertyKeyCollection keys = typeof(T).GetPropertyKeys();
+
+			foreach (IPropertyKey key in keys)
+				table.Columns.Add(key.Name, Nullable.GetUnderlyingType(key.PropertyType) ?? key.PropertyType);
+
+			foreach (T item in items)
+			{
+				DataRow row = table.NewRow();
+				foreach (IPropertyKey key in keys)
+					row[key.Name] = key.GetBoxedValue(item) ?? DBNull.Value;
+				table.Rows.Add(row);
+			}
+
+			return table;
+		}
 	}
 }
 

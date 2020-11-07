@@ -1,45 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using Core.Collections;
 
 namespace Core.Data
 {
-	public abstract class CoreDataRepository<TDataObject>
+	public interface ICoreDataRepository<TDataObject>
 		where TDataObject : class
 	{
-		#region Fields
+		ValueTripper<TDataObject> Insert(TDataObject item);
+		ValueTripper<TDataObject> Update(TDataObject item);
+		ValueTripper Delete(TDataObject item);
+		ValueTripper<TDataObject> GetItem(TDataObject item);
+	}
 
-		private ISqlConnectionProvider provider;
-		protected ISqlConnectionProvider Provider => provider ?? SqlConnectionProvider.Default;
-
-		#endregion Fields
-
+	public abstract class CoreDataRepository<TProxy, TDataObject> : CoreDataAccessObject<TProxy>, ICoreDataRepository<TDataObject>
+		where TProxy : class
+		where TDataObject : class
+	{
 		#region Constructors
 
-		public CoreDataRepository(ISqlConnectionProvider provider = null)
+		public CoreDataRepository(ISqlConnectionProvider provider = null) : base(provider)
 		{
-			this.provider = provider;
-			InitializeProxy();
 		}
 
 		#endregion Constructors
 
-		#region Initialize
-
-		protected abstract void InitializeProxy();
-
-		#endregion Initialize
-
 		#region Operations
 
-		public abstract TDataObject Insert(TDataObject item);
-		public abstract TDataObject Update(TDataObject item);
-		public abstract TDataObject Delete(TDataObject item);
-		public abstract TDataObject GetItem(TDataObject item);
+		public abstract ValueTripper<TDataObject> Insert(TDataObject item);
+		public abstract ValueTripper<TDataObject> Update(TDataObject item);
+		public abstract ValueTripper Delete(TDataObject item);
+		public abstract ValueTripper<TDataObject> GetItem(TDataObject item);
 
-		public TDataObject ExecuteOperation(CoreDataOperation operation, TDataObject item)
+		public ValueTripper ExecuteOperation(CoreDataOperation operation, TDataObject item)
 		{
 			switch (operation)
 			{

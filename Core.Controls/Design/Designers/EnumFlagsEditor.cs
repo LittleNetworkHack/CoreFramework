@@ -13,6 +13,7 @@ using Core.Collections;
 
 namespace Core.Controls
 {
+	[ToolboxItem(false)]
 	public class EnumFlagsEditor : CheckedListBox
 	{
 		protected bool inSetting;

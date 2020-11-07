@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Core</RootNamespace>
     <AssemblyName>Core.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -69,7 +70,7 @@
     <Compile Include="Common\Converter\Implementation\CoreConverter.UInt64.cs" />
     <Compile Include="Common\CoreComparer.cs" />
     <Compile Include="ComponentModel\ILockable.cs" />
-    <Compile Include="ComponentModel\NotifyDecriptorBase.cs" />
+    <Compile Include="ComponentModel\NotifyDescriptorBase.cs" />
     <Compile Include="ComponentModel\StateComponent.cs" />
     <Compile Include="ComponentModel\ValueTripper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

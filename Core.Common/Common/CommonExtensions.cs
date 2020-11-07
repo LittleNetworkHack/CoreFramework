@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
@@ -13,6 +14,50 @@ namespace Core
 {
     public static class CommonExtensions
 	{
+		#region Common Checks
+
+		public static bool IsNullOrDBNull(this object value) => value == null || value == DBNull.Value;
+
+		public static bool IsInRange(this int value, int minimum, int maximum)
+		{
+			return value >= minimum && value <= maximum;
+		}
+
+		public static bool CheckFlag<TEnum>(this TEnum value, TEnum flag)
+			where TEnum : struct
+		{
+			long v = CoreConverter.ConvertTo<long>(value);
+			long f = CoreConverter.ConvertTo<long>(flag);
+			return (v & f) != 0;
+		}
+
+		#endregion Common Checks
+
+		#region Creators
+
+		public static ServiceHost CreateServiceHost(this Type serviceType, Type endpointType, Uri baseAddress, string address, params Binding[] bindings)
+		{
+			ServiceHost host = new ServiceHost(serviceType, baseAddress);
+			foreach (Binding bind in bindings)
+				host.AddServiceEndpoint(endpointType, bind, address);
+
+			return host;
+		}
+
+		public static TService GetService<TService>(this IServiceProvider provider)
+		{
+			return (TService)provider?.GetService(typeof(TService));
+		}
+
+		#endregion Creators
+
+		#region Object Operations
+
+		public static T Copy<T>(this T instance) where T : NotifyDescriptorBase
+		{
+			return (T)instance.Clone();
+		}
+
 		public static void TryDispose(this object value)
 		{
 			try
@@ -26,41 +71,9 @@ namespace Core
 			catch { }
 		}
 
-		public static bool IsNullOrDBNull(this object value) => value == null || value == DBNull.Value;
+		#endregion Object Operations
 
-		public static bool IsInRange(this int value, int minimum, int maximum)
-		{
-			return value >= minimum && value <= maximum;
-		}
-
-		public static int CollapseToRange(this int value, int minimum, int maximum)
-		{
-			if (value < minimum)
-				return minimum;
-			else if (value > maximum)
-				return maximum;
-
-			return value;
-		}
-
-		public static ServiceHost CreateServiceHost(this Type serviceType, Type endpointType, Uri baseAddress, string address, params Binding[] bindings)
-		{
-			ServiceHost host = new ServiceHost(serviceType, baseAddress);
-			foreach (Binding bind in bindings)
-				host.AddServiceEndpoint(endpointType, bind, address);
-
-			return host;
-		}
-
-		public static TService GetService<TService>(this IServiceProvider provider)
-        {
-            return (TService)provider?.GetService(typeof(TService));
-        }
-
-		public static T Copy<T>(this T instance) where T : NotifyDecriptorBase
-		{
-			return (T)instance.Clone();
-		}
+		#region Enumerations
 
 		public static Dictionary<TEnum, string> GetEnumDescriptions<TEnum>()
 			where TEnum : struct
@@ -92,6 +105,10 @@ namespace Core
 			return result;
 		}
 
+		#endregion Enumerations
+
+		#region Attributes
+
 		public static IEnumerable<Atr> GetAttributes<Atr>(this MemberInfo info, bool inherit = false)
 			where Atr : Attribute
 		{
@@ -115,5 +132,7 @@ namespace Core
 		{
 			return info.GetAttributes<Atr>(inherit).FirstOrDefault();
 		}
+
+		#endregion Attributes
 	}
 }

@@ -57,7 +57,7 @@ namespace Core
 				//case Guid v:
 				//	return ToInt64(v);
 				default:
-					return null;
+					return TryCast<long>(value);
 			}
 		}
 

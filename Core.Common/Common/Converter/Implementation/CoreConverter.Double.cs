@@ -57,7 +57,7 @@ namespace Core
 				//case Guid v:
 				//	return ToDouble(v);
 				default:
-					return null;
+					return TryCast<double>(value);
 			}
 		}
 

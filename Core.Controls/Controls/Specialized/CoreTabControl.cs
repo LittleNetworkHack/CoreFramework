@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace Core.Controls
 { 
+    [ToolboxItem(false)]
 	public class CoreTabControl : TabControl
 	{
         private bool _ShowHeaders = false;

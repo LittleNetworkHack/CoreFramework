@@ -118,10 +118,18 @@ namespace Core.Controls
 
 		protected void Initialize()
 		{
-			CreatePropertyCollection();
+			Type type = DataType;
+			if (type == null || type.IsValueType)
+			{
+				Properties = new PropertyKeyCollection();
+			}
+			else if (type.IsClass)
+			{
+				Properties = new PropertyKeyCollection(type);
+				foreach (IPropertyKey key in Properties)
+					InvokePropertyChanged(key.Name);
+			}
 			InvokeDataSourceChanged();
-			foreach (IPropertyKey key in Properties)
-				InvokePropertyChanged(key.Name);
 		}
 
 		protected void InvokePropertyChanged(string name)
@@ -132,12 +140,6 @@ namespace Core.Controls
 		protected void InvokeDataSourceChanged()
 		{
 			DataSourceChanged?.Invoke(this, EventArgs.Empty);
-		}
-
-		protected void CreatePropertyCollection()
-		{
-			Type type = DataType;
-			Properties = type == null ? new PropertyKeyCollection() : new PropertyKeyCollection(type);
 		}
 
 		#endregion Helper Methods

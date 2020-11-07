@@ -57,7 +57,7 @@ namespace Core
 				//case Guid v:
 				//	return ToUInt64(v);
 				default:
-					return null;
+					return TryCast<DateTime>(value);
 			}
 		}
 

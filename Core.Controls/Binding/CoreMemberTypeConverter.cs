@@ -26,6 +26,8 @@ namespace Core.Controls
 			if (svc == null)
 				return value;
 
+			MessageBox.Show(svc.GetType().FullName);
+
 			string[] items;
 			if (source.IsOwned)
 				items = source.CoreSource.Properties.Select(K => K.Name).ToArray();

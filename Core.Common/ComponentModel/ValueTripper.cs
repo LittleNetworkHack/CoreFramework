@@ -5,11 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using Core.Collections;
 using Core.Reflection;
 
 namespace Core
 {
-	public abstract class ValueTripper
+	public class ValueTripper
 	{
 		protected Type[] typeList;
 		protected object[] innerList;
@@ -25,18 +26,24 @@ namespace Core
 		}
 
 		public int Count { get; }
+		public CoreCollection<Exception> Exceptions { get; }
+
+		public ValueTripper() : this(0)
+		{
+		}
 
 		protected ValueTripper(int count)
 		{
 			Count = count;
+			Exceptions = new CoreCollection<Exception>();
 			innerList = new object[count];
-			typeList = GetTypes();
+			typeList = GetTypesCore().ToArray();
 		}
 
 		public object[] GetValues() => innerList.ToArray();
 
 		public Type GetType(int index) => typeList[index];
-		public Type[] GetTypes() => GetTypesCore().ToArray();
+		public Type[] GetTypes() => typeList.ToArray();
 
 		protected virtual List<Type> GetTypesCore() => new List<Type>();
 	}

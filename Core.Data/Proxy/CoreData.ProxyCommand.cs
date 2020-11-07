@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -20,7 +21,7 @@ namespace Core.Data
 		public RuntimeMethodHandle Handle => Method.MethodHandle;
 		public MethodInfo Method { get; protected set; }
 		public string CommandText { get; protected set; }
-		public ReadOnlyCollection<string> Parameters { get; protected set; }
+		public CoreCollection<string> Parameters { get; protected set; }
 		public IObjectActivator Activator { get; protected set; }
 		public CoreDataProxy Proxy { get; private set; }
 
@@ -34,9 +35,9 @@ namespace Core.Data
 			Method = info;
 			CommandText = GetCommandName(info);
 
-			List<string> names = info.GetParameters().Select(P => "@" + P.Name).ToList();
-			Parameters = new ReadOnlyCollection<string>(names);
-
+			IEnumerable<string> names = info.GetParameters().Select(P => "@" + P.Name);
+			Parameters = new CoreCollection<string>(names);
+			Parameters.LockObject();
 			try
 			{
 				Activator = ObjectActivator.GetActivator(info.ReturnType);
@@ -52,7 +53,8 @@ namespace Core.Data
 		{
 			Method = item.Method;
 			CommandText = item.CommandText;
-			Parameters = new ReadOnlyCollection<string>(item.Parameters);
+			Parameters = new CoreCollection<string>(item.Parameters);
+			Parameters.LockObject();
 			Activator = item.Activator;
 			Proxy = item.Proxy;
 		}
@@ -98,15 +100,17 @@ namespace Core.Data
 
 		#region Execute Command
 
-		public ValueTripper ExecuteCommand(params object[] args)
+		public ValueTripper ExecuteCommand(object[] args)
 		{
 			SqlConnection connection = null;
 			SqlCommand command = null;
-
+			ValueTripper tripper = (ValueTripper)Activator.InvokeConstructor();
+			SqlInfoMessageEventHandler handler = (s, e) => tripper.Exceptions.Add(new WarningException(e.Message));
 			try
 			{
-				ValueTripper tripper = (ValueTripper)Activator.InvokeConstructor();
 				connection = Proxy.InBatch ? Proxy.Connection : Proxy.CreateConnection(true);
+				connection.InfoMessage += handler;
+
 				command = CreateCommand(args);
 				command.Connection = connection;
 				command.Transaction = Proxy.InTransaction ? Proxy.Transaction : null;
@@ -125,8 +129,16 @@ namespace Core.Data
 
 				return tripper;
 			}
+			catch (Exception ex)
+			{
+				tripper.Exceptions.Add(ex);
+				return tripper;
+			}
 			finally
 			{
+				if (connection != null)
+					connection.InfoMessage -= handler;
+
 				if (!Proxy.InBatch && !Proxy.InTransaction)
 					connection.TryDispose();
 

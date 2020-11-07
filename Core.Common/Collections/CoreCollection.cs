@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Core.ComponentModel;
 using Core.Reflection;
 
 namespace Core.Collections
 {
-	public class CoreCollection<T> : NotifyDecriptorBase,
+	public class CoreCollection<T> : NotifyDescriptorBase,
 	 	ICoreCollection<T>, ICoreCollection,
 		IList<T>, IList,
 		ICollection<T>, ICollection,

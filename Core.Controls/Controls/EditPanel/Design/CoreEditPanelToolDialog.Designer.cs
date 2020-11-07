@@ -61,9 +61,6 @@
 			// 
 			// comboEditBox1
 			// 
-			this.comboEditBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.comboEditBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboEditBox1.FormattingEnabled = true;
 			this.comboEditBox1.Location = new System.Drawing.Point(112, 12);
 			this.comboEditBox1.Name = "comboEditBox1";
 			this.comboEditBox1.Size = new System.Drawing.Size(121, 21);

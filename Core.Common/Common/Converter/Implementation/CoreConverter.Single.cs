@@ -57,7 +57,7 @@ namespace Core
 				//case Guid v:
 				//	return ToSingle(v);
 				default:
-					return null;
+					return TryCast<float>(value);
 			}
 		}
 

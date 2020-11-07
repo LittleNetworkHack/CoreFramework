@@ -13,7 +13,7 @@ namespace Core.Controls
 	public class CoreEditPresenter<TViewModel, TRepository, TDataObject> : CoreEditView
 	where TDataObject : class
 		where TViewModel : CoreEditViewModel<TDataObject>
-		where TRepository : CoreDataRepository<TDataObject>
+		where TRepository : ICoreDataRepository<TDataObject>
 	{
 		#region Declarations
 

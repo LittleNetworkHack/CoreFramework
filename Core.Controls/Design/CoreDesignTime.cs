@@ -49,10 +49,36 @@ namespace Core.Controls
             return EditDefault;
         }
 
-        public static Color GetBackgroundColor<TValue>(this BaseEditBox<TValue> box) => box.GetColors().Background;
-        public static Color GetForegroundColor<TValue>(this BaseEditBox<TValue> box) => box.GetColors().Foreground;
-        public static Color GetBorderColor<TValue>(this BaseEditBox<TValue> box) => box.GetColors().Border;
+        public static Color GetBackgroundColor(this CoreControlStates state) => state.GetColors().Background;
+        public static Color GetForegroundColor(this CoreControlStates state) => state.GetColors().Foreground;
+        public static Color GetBorderColor(this CoreControlStates state) => state.GetColors().Border;
+
+        public static ColorTriplet GetColors(this CoreControlStates state)
+		{
+            if (!state.CheckFlag(CoreControlStates.Enabled))
+                return EditDisabled;
+            else if (state.CheckFlag(CoreControlStates.ReadOnly))
+                return EditReadOnly;
+            else if (state.CheckFlag(CoreControlStates.Focused))
+                return EditFocused;
+            else if (!state.CheckFlag(CoreControlStates.Valid))
+                return EditError;
+            else if (state.CheckFlag(CoreControlStates.Mandatory))
+                return EditMandatory;
+
+            return EditDefault;
+		}
     }
+
+    public enum CoreControlStates
+	{
+        Default     = 0,
+        Enabled     = 1,
+        ReadOnly    = 2,
+        Focused     = 4,
+        Valid       = 8,
+        Mandatory   = 16
+	}
 
     public enum CoreDesignTheme
     {

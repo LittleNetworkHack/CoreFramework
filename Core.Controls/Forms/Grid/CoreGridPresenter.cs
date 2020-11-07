@@ -13,7 +13,7 @@ namespace Core.Controls
 	public class CoreGridPresenter<TViewModel, TRepository, TDataObject> : CoreGridView
 		where TDataObject : class
 		where TViewModel : CoreGridViewModel<TDataObject>
-		where TRepository : CoreDataRepository<TDataObject>
+		where TRepository : ICoreDataRepository<TDataObject>
 	{
 		#region Properties
 
@@ -66,7 +66,9 @@ namespace Core.Controls
 			if (SelectedItem == null)
 				return null;
 
-			return Repository.GetItem(SelectedItem);
+			var tripper = Repository.GetItem(SelectedItem);
+
+			return tripper.Exceptions.Count > 0 ? null : tripper.Item1;
 		}
 
 		protected override IEnumerable<CoreFnStateItem> GetNextStateItems(string current, string next)

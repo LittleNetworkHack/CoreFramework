@@ -59,7 +59,7 @@ namespace Core
 				//case Guid v:
 				//	return ToString(v);
 				default:
-					return null;
+					return value.ToString();
 			}
 		}
 

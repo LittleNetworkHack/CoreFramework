@@ -84,7 +84,6 @@ namespace Core.Reflection
 
 		#endregion Get Properties
 
-
 		#region Filters
 
 		public static IEnumerable<IPropertyKey<TProperty>> WherePropertyType<TProperty>(this IEnumerable<IPropertyKey> properties)

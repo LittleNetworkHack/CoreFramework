@@ -15,8 +15,10 @@ namespace Core.Controls
 {
 	#region Interface
 
-	public interface ICoreEditControl
+	public interface ICoreControl
 	{
+		CoreControlStates CoreState { get; }
+
 		object Value { get; set; }
 		Type ValueType { get; }
 
@@ -30,7 +32,7 @@ namespace Core.Controls
 	#endregion Interface
 
 	[Designer("System.Windows.Forms.Design.TextBoxDesigner, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-	public abstract class BaseEditBox<TValue> : TextBox, ICoreEditControl
+	public abstract class BaseEditBox<TValue> : TextBox, ICoreControl
 	{
 		#region Properties
 
@@ -68,11 +70,31 @@ namespace Core.Controls
 			set => SetPropValue(ref _isMandatory, value, ForcePaint);
 		}
 
+		public CoreControlStates CoreState
+		{
+			get
+			{
+				CoreControlStates value = CoreControlStates.Default;
+
+				if (Enabled)
+					value |= CoreControlStates.Enabled;
+				if (ReadOnly)
+					value |= CoreControlStates.ReadOnly;
+				if (Focused)
+					value |= CoreControlStates.Focused;
+				if (IsValid)
+					value |= CoreControlStates.Valid;
+				if (IsMandatory)
+					value |= CoreControlStates.Mandatory;
+
+				return value;
+			}
+		}
 
 		#region ICoreEditControl
 
-		Type ICoreEditControl.ValueType => typeof(TValue);
-		object ICoreEditControl.Value
+		Type ICoreControl.ValueType => typeof(TValue);
+		object ICoreControl.Value
 		{
 			get => Value;
 			set => Value = (TValue)value;
@@ -310,13 +332,13 @@ namespace Core.Controls
 
 		#region Paint
 
-		protected Color BorderColor => this.GetBorderColor();
+		protected Color BorderColor => CoreState.GetBorderColor();
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public override Color BackColor
 		{
-			get => this.GetBackgroundColor();
+			get => CoreState.GetBackgroundColor();
 			set => base.BackColor = value;
 		}
 
@@ -324,15 +346,16 @@ namespace Core.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public override Color ForeColor
 		{
-			get => this.GetForegroundColor();
+			get => CoreState.GetForegroundColor();
 			set => base.ForeColor = value;
 		}
 
 		protected void ForcePaint()
 		{
-			BackColor = BackColor;
+			ColorTriplet colors = CoreState.GetColors();
+			base.BackColor = colors.Background;
 			OnBackColorChanged(EventArgs.Empty);
-			ForeColor = ForeColor;
+			base.ForeColor = colors.Foreground;
 			OnForeColorChanged(EventArgs.Empty);
 			Invalidate();
 		}

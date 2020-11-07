@@ -57,7 +57,7 @@ namespace Core
 				//case Guid v:
 				//	return ToUInt16(v);
 				default:
-					return null;
+					return TryCast<ushort>(value);
 			}
 		}
 

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace Core.Controls
 {
 	public class CoreDataBinder<TControl>
-		where TControl : ICoreEditControl
+		where TControl : ICoreControl
 	{
 		protected CoreDataSource Source => null;//Owner?.CoreSource;
 

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace Core.Controls
 {
+	[ToolboxItem(false)]
 	public class CoreValidatorBox : Control
 	{
 		#region Image

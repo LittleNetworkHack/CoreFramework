@@ -57,7 +57,7 @@ namespace Core
 				//case Guid v:
 				//	return ToChar(v);
 				default:
-					return null;
+					return TryCast<char>(value);
 			}
 		}
 

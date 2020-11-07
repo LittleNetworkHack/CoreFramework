@@ -59,7 +59,7 @@ namespace Core
 				//case Guid v:
 				//	return ToBoolean(v);
 				default:
-					return null;
+					return TryCast<bool>(value);
 			}
 		}
 

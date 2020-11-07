@@ -51,16 +51,21 @@
     <Compile Include="Components\CoreEditManager.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ControlExtensions.cs" />
     <Compile Include="Controls\EditBox\BaseEditBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\EditBox\BaseTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\EditBox\CheckEditBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\EditBox\ChildObjects\ComboDropPanel.cs">
+    <Compile Include="Controls\DropDown\ComboEditDropDown.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\EditBox\ComboEditBox.cs">
+    <Compile Include="Controls\DropDown\CoreDropDown.cs" />
+    <Compile Include="Controls\DropDown\ComboEditBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\EditPanel\CoreEditBoxToolboxItem.cs" />
@@ -163,6 +168,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Win32\Win32.Constants.cs" />
+    <Compile Include="Win32\Win32.Methods.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>

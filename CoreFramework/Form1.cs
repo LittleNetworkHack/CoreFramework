@@ -15,6 +15,7 @@ namespace CoreFramework
 		public Form1()
 		{
 			InitializeComponent();
+			
 		}
 	}
 }

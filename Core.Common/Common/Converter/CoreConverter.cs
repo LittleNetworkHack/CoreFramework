@@ -49,6 +49,10 @@ namespace Core
 
 			destType = Nullable.GetUnderlyingType(destType) ?? destType;
 
+			Type enumType = srcType.IsEnum ? Enum.GetUnderlyingType(srcType) : null;
+			if (enumType != null && enumType != destType)
+				value = ConvertTo(value, enumType);
+
 			if (destType.IsEnum)
 				value = ToEnum(value, destType);
 			else if (destType == typeof(bool))
@@ -93,6 +97,19 @@ namespace Core
 				value = ToGuid(value);
 
 			return value ?? defVal;
+		}
+
+		public static TValue? TryCast<TValue>(object value)
+			where TValue : struct
+		{
+			try
+			{
+				return (TValue)value;
+			}
+			catch
+			{
+				return null;
+			}
 		}
 
 		#region OutOfRange

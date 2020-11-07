@@ -25,7 +25,7 @@ namespace Core.Controls
 
 		#endregion Properties
 
-		public ICoreEditControl EditBox { get; set; }
+		public ICoreControl EditBox { get; set; }
 
 		#region Constructors
 
@@ -64,7 +64,7 @@ namespace Core.Controls
 		public override bool Layout(object container, LayoutEventArgs layoutEventArgs)
 		{
 			CoreEditPanel panel = container as CoreEditPanel;
-			IEnumerable<ICoreEditControl> items = panel.Controls.OfType<ICoreEditControl>();
+			IEnumerable<ICoreControl> items = panel.Controls.OfType<ICoreControl>();
 
 			int itemX = _labelWidth + _offsetLeft;
 			int itemY = _offsetTop;
@@ -73,7 +73,7 @@ namespace Core.Controls
 			int lblY = _offsetTop;
 
 
-			foreach (ICoreEditControl ctrl in items)
+			foreach (ICoreControl ctrl in items)
 			{
 				if (ctrl.Dock != DockStyle.Fill)
 					continue;

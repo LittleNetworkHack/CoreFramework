@@ -8,7 +8,7 @@ using Core.ComponentModel;
 
 namespace Core.Data
 {
-	public class CoreConnectionProvider : NotifyDecriptorBase, ISqlConnectionProvider
+	public class CoreConnectionProvider : NotifyDescriptorBase, ISqlConnectionProvider
 	{
 		#region Fields
 

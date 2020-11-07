@@ -54,6 +54,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -81,6 +84,10 @@
     <ProjectReference Include="..\Core.Common\Core.Common.csproj">
       <Project>{6c95fc5e-59c7-472d-9250-9524b20d3da7}</Project>
       <Name>Core.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core.Controls\Core.Controls.csproj">
+      <Project>{dbad867f-d743-4afa-83a9-0cc6503fc5c8}</Project>
+      <Name>Core.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core.Data\Core.Data.csproj">
       <Project>{00dfd655-68c7-42cc-a72f-e29840d2b486}</Project>

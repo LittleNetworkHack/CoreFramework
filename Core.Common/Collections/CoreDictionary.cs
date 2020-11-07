@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Core.Reflection;
 
 namespace Core.Collections
@@ -12,13 +11,20 @@ namespace Core.Collections
 		#region Properties
 
 		protected Dictionary<TKey, TValue> Items2 { get; private set; }
-		protected virtual IPropertyKey<TValue, TKey> KeyResolver { get; set; }
+		protected IPropertyKey<TValue, TKey> KeyResolver { get; set; }
 
 		public IEnumerable<TKey> Keys => Items2.Keys;
 
 		#endregion Properties
 
 		#region Constructors
+
+		public CoreDictionary()
+		{
+			isNullable = false;
+			Items2 = new Dictionary<TKey, TValue>();
+			
+		}
 
 		public CoreDictionary(string propertyName)
 		{
